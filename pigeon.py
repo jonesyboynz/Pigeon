@@ -3,6 +3,7 @@ import argparse
 import os
 import json
 import ntpath
+import sys
 
 #Global vairables
 VERSION = "1.0.0"
@@ -10,10 +11,30 @@ DEFAULT_BUFFER_SIZE = 10000
 DEFAULT_FILENAME = "message"
 DEFAULT_EXTENSION = ".pgy"
 DEFAULT_CODEBOOK="""
-{"0": ["000"], "1": ["001"], "2": ["002"], "3": ["003"], "4": ["004"], "5": ["005"], "6": ["006"], "7": ["007"], "8": ["008"], "9": ["009"], "10": ["010"], "11": ["011"], "12": ["012"], "13": ["013"], "14": ["014"], "15": ["015"], "16": ["016"], "17": ["017"], "18": ["018"], "19": ["019"], "20": ["020"], "21": ["021"], "22": ["022"], "23": ["023"], "24": ["024"], "25": ["025"], "26": ["026"], "27": ["027"], "28": ["028"], "29": ["029"], "30": ["030"], "31": ["031"], "32": ["032"], "33": ["033"], "34": ["034"], "35": ["035"], "36": ["036"], "37": ["037"], "38": ["038"], "39": ["039"], "40": ["040"], "41": ["041"], "42": ["042"], "43": ["043"], "44": ["044"], "45": ["045"], "46": ["046"], "47": ["047"], "48": ["048"], "49": ["049"], "50": ["050"], "51": ["051"], "52": ["052"], "53": ["053"], "54": ["054"], "55": ["055"], "56": ["056"], "57": ["057"], "58": ["058"], "59": ["059"], "60": ["060"], "61": ["061"], "62": ["062"], "63": ["063"], "64": ["064"], "65": ["065"], "66": ["066"], "67": ["067"], "68": ["068"], "69": ["069"], "70": ["070"], "71": ["071"], "72": ["072"], "73": ["073"], "74": ["074"], "75": ["075"], "76": ["076"], "77": ["077"], "78": ["078"], "79": ["079"], "80": ["080"], "81": ["081"], "82": ["082"], "83": ["083"], "84": ["084"], "85": ["085"], "86": ["086"], "87": ["087"], "88": ["088"], "89": ["089"], "90": ["090"], "91": ["091"], "92": ["092"], "93": ["093"], "94": ["094"], "95": ["095"], "96": ["096"], "97": ["097"], "98": ["098"], "99": ["099"], "100": ["100"], "101": ["101"], "102": ["102"], "103": ["103"], "104": ["104"], "105": ["105"], "106": ["106"], "107": ["107"], "108": ["108"], "109": ["109"], "110": ["110"], "111": ["111"], "112": ["112"], "113": ["113"], "114": ["114"], "115": ["115"], "116": ["116"], "117": ["117"], "118": ["118"], "119": ["119"], "120": ["120"], "121": ["121"], "122": ["122"], "123": ["123"], "124": ["124"], "125": ["125"], "126": ["126"], "127": ["127"], "128": ["128"], "129": ["129"], "130": ["130"], "131": ["131"], "132": ["132"], "133": ["133"], "134": ["134"], "135": ["135"], "136": ["136"], "137": ["137"], "138": ["138"], "139": ["139"], "140": ["140"], "141": ["141"], "142": ["142"], "143": ["143"], "144": ["144"], "145": ["145"], "146": ["146"], "147": ["147"], "148": ["148"], "149": ["149"], "150": ["150"], "151": ["151"], "152": ["152"], "153": ["153"], "154": ["154"], "155": ["155"], "156": ["156"], "157": ["157"], "158": ["158"], "159": ["159"], "160": ["160"], "161": ["161"], "162": ["162"], "163": ["163"], "164": ["164"], "165": ["165"], "166": ["166"], "167": ["167"], "168": ["168"], "169": ["169"], "170": ["170"], "171": ["171"], "172": ["172"], "173": ["173"], "174": ["174"], "175": ["175"], "176": ["176"], "177": ["177"], "178": ["178"], "179": ["179"], "180": ["180"], "181": ["181"], "182": ["182"], "183": ["183"], "184": ["184"], "185": ["185"], "186": ["186"], "187": ["187"], "188": ["188"], "189": ["189"], "190": ["190"], "191": ["191"], "192": ["192"], "193": ["193"], "194": ["194"], "195": ["195"], "196": ["196"], "197": ["197"], "198": ["198"], "199": ["199"], "200": ["200"], "201": ["201"], "202": ["202"], "203": ["203"], "204": ["204"], "205": ["205"], "206": ["206"], "207": ["207"], "208": ["208"], "209": ["209"], "210": ["210"], "211": ["211"], "212": ["212"], "213": ["213"], "214": ["214"], "215": ["215"], "216": ["216"], "217": ["217"], "218": ["218"], "219": ["219"], "220": ["220"], "221": ["221"], "222": ["222"], "223": ["223"], "224": ["224"], "225": ["225"], "226": ["226"], "227": ["227"], "228": ["228"], "229": ["229"], "230": ["230"], "231": ["231"], "232": ["232"], "233": ["233"], "234": ["234"], "235": ["235"], "236": ["236"], "237": ["237"], "238": ["238"], "239": ["239"], "240": ["240"], "241": ["241"], "242": ["242"], "243": ["243"], "244": ["244"], "245": ["245"], "246": ["246"], "247": ["247"], "248": ["248"], "249": ["249"], "250": ["250"], "251": ["251"], "252": ["252"], "253": ["253"], "254": ["254"], "255": ["255"], "header": "!p1ge0n", "metadata-seperator": ":", "tail": "!p1ge0n"}
+{"0": ["000"], "1": ["001"], "2": ["002"], "3": ["003"], "4": ["004"], "5": ["005"], "6": ["006"], "7": ["007"], "8": ["008"], "9": ["009"], "10": ["010"], "11": ["011"], "12": ["012"], "13": ["013"], "14": ["014"], "15": ["015"], "16": ["016"], "17": ["017"], "18": ["018"], "19": ["019"], "20": ["020"], "21": ["021"], "22": ["022"], "23": ["023"], "24": ["024"], "25": ["025"], "26": ["026"], "27": ["027"], "28": ["028"], "29": ["029"], "30": ["030"], "31": ["031"], "32": ["032"], "33": ["033"], "34": ["034"], "35": ["035"], "36": ["036"], "37": ["037"], "38": ["038"], "39": ["039"], "40": ["040"], "41": ["041"], "42": ["042"], "43": ["043"], "44": ["044"], "45": ["045"], "46": ["046"], "47": ["047"], "48": ["048"], "49": ["049"], "50": ["050"], "51": ["051"], "52": ["052"], "53": ["053"], "54": ["054"], "55": ["055"], "56": ["056"], "57": ["057"], "58": ["058"], "59": ["059"], "60": ["060"], "61": ["061"], "62": ["062"], "63": ["063"], "64": ["064"], "65": ["065"], "66": ["066"], "67": ["067"], "68": ["068"], "69": ["069"], "70": ["070"], "71": ["071"], "72": ["072"], "73": ["073"], "74": ["074"], "75": ["075"], "76": ["076"], "77": ["077"], "78": ["078"], "79": ["079"], "80": ["080"], "81": ["081"], "82": ["082"], "83": ["083"], "84": ["084"], "85": ["085"], "86": ["086"], "87": ["087"], "88": ["088"], "89": ["089"], "90": ["090"], "91": ["091"], "92": ["092"], "93": ["093"], "94": ["094"], "95": ["095"], "96": ["096"], "97": ["097"], "98": ["098"], "99": ["099"], "100": ["100"], "101": ["101"], "102": ["102"], "103": ["103"], "104": ["104"], "105": ["105"], "106": ["106"], "107": ["107"], "108": ["108"], "109": ["109"], "110": ["110"], "111": ["111"], "112": ["112"], "113": ["113"], "114": ["114"], "115": ["115"], "116": ["116"], "117": ["117"], "118": ["118"], "119": ["119"], "120": ["120"], "121": ["121"], "122": ["122"], "123": ["123"], "124": ["124"], "125": ["125"], "126": ["126"], "127": ["127"], "128": ["128"], "129": ["129"], "130": ["130"], "131": ["131"], "132": ["132"], "133": ["133"], "134": ["134"], "135": ["135"], "136": ["136"], "137": ["137"], "138": ["138"], "139": ["139"], "140": ["140"], "141": ["141"], "142": ["142"], "143": ["143"], "144": ["144"], "145": ["145"], "146": ["146"], "147": ["147"], "148": ["148"], "149": ["149"], "150": ["150"], "151": ["151"], "152": ["152"], "153": ["153"], "154": ["154"], "155": ["155"], "156": ["156"], "157": ["157"], "158": ["158"], "159": ["159"], "160": ["160"], "161": ["161"], "162": ["162"], "163": ["163"], "164": ["164"], "165": ["165"], "166": ["166"], "167": ["167"], "168": ["168"], "169": ["169"], "170": ["170"], "171": ["171"], "172": ["172"], "173": ["173"], "174": ["174"], "175": ["175"], "176": ["176"], "177": ["177"], "178": ["178"], "179": ["179"], "180": ["180"], "181": ["181"], "182": ["182"], "183": ["183"], "184": ["184"], "185": ["185"], "186": ["186"], "187": ["187"], "188": ["188"], "189": ["189"], "190": ["190"], "191": ["191"], "192": ["192"], "193": ["193"], "194": ["194"], "195": ["195"], "196": ["196"], "197": ["197"], "198": ["198"], "199": ["199"], "200": ["200"], "201": ["201"], "202": ["202"], "203": ["203"], "204": ["204"], "205": ["205"], "206": ["206"], "207": ["207"], "208": ["208"], "209": ["209"], "210": ["210"], "211": ["211"], "212": ["212"], "213": ["213"], "214": ["214"], "215": ["215"], "216": ["216"], "217": ["217"], "218": ["218"], "219": ["219"], "220": ["220"], "221": ["221"], "222": ["222"], "223": ["223"], "224": ["224"], "225": ["225"], "226": ["226"], "227": ["227"], "228": ["228"], "229": ["229"], "230": ["230"], "231": ["231"], "232": ["232"], "233": ["233"], "234": ["234"], "235": ["235"], "236": ["236"], "237": ["237"], "238": ["238"], "239": ["239"], "240": ["240"], "241": ["241"], "242": ["242"], "243": ["243"], "244": ["244"], "245": ["245"], "246": ["246"], "247": ["247"], "248": ["248"], "249": ["249"], "250": ["250"], "251": ["251"], "252": ["252"], "253": ["253"], "254": ["254"], "255": ["255"], "header": "!!!p1ge0n", "metadata-seperator": ":"}
 """
 
 #Classes
+class ProgressDisplay(object): #For displaying encoding/decoding progress
+    def __init__(self, target):
+        self.__target = target
+        self.__count = 0
+
+    def Begin(self):
+        print("Bytes processed: ", end="")
+        return self
+
+    def Update(self, count):
+        self.__count += count
+        if self.__count >= self.__target:
+            print("{0}... ".format(self.__target), end="")
+            sys.stdout.flush()
+            self.__target = self.__target * 2
+
+    def End(self):
+        print("[{0}]".format(self.__count))
+        return self
+
 class BufferedInput(object): #Buffered command line input
     def __init__(self):
         self.__buffer = ""
@@ -21,21 +42,21 @@ class BufferedInput(object): #Buffered command line input
         self.EndOfFile = False
         self.Filename = ""
 
-    def IsEmpty(self):
-        return len(self.__buffer) == 0
-
     def Close(self):
-        pass
+        self.EndOfFile = True
+
+    def __PopulateBuffer(self):
+        self.__buffer = input()
+        self.__index = 0
 
     def Read(self):
         if self.__index >= len(self.__buffer) - 1:
             try:
-                self.__buffer = input()
-                self.__index = 0
+                self.__PopulateBuffer()
             except (EOFError, KeyboardInterrupt):
                 self.EndOfFile = True
                 self.__buffer = ""
-        if len(self.__buffer) > 0:
+        if not self.EndOfFile:
             value = ord(self.__buffer[self.__index])
             self.__index += 1
             return value
@@ -51,20 +72,21 @@ class BufferedFile(object): #Buffered file input and output
         self.__bufferSize = bufferSize
         self.EndOfFile = False
 
-    def IsEmpty(self):
-        return len(self.__buffer) == 0
-
     def Close(self):
         if self.__write:
             self.Flush()
         self.__file.close()
+        self.EndOfFile = True
+
+    def __PopulateBuffer(self):
+        self.__buffer = self.__file.read(self.__bufferSize)
+        self.__index = 0
+        self.EndOfFile = len(self.__buffer) == 0
 
     def Read(self):
         if self.__index >= len(self.__buffer) - 1:
-            self.__buffer = self.__file.read(self.__bufferSize)
-            self.__index = 0
-            self.EndOfFile = len(self.__buffer) == 0
-        if len(self.__buffer) > 0:
+            self.__PopulateBuffer()
+        if not self.EndOfFile:
             value = self.__buffer[self.__index]
             self.__index += 1
             return value
@@ -103,6 +125,18 @@ class SymbolNode(object): #Node in the decoding state-machine
             self.__children[character] = SymbolNode(character)
         self.__children[character].Extend(code[1:], byte)
 
+    def Decode(self, bufferIn):
+        if self.Byte is not None:
+            return (self.Byte, 1)
+        byte = bufferIn.Read()
+        if byte is None:
+            FailWith("DecodingError: Unable to parse file", 43)
+        char = chr(byte)
+        if char not in self.__children:
+            FailWith("DecodingError: Unable to decode {0} from {1}".format(char, self.Char), 44)
+        decodedByte, count = self.__children[char].Decode(bufferIn)
+        return (decodedByte, count + 1)
+
     def __str__(self): #Useful for debugging
         if self.Byte is not None:
             return "{0}->B{1}".format(self.Char, self.Byte)
@@ -114,7 +148,6 @@ class CodeBook(object): #Codebook for encoding and decoding
         self.__encoding = {}
         self.__decoding = {}
         self.Header = None
-        self.Tail = None
         self.MetadataSeperator = None
 
     def Build(self):
@@ -127,7 +160,6 @@ class CodeBook(object): #Codebook for encoding and decoding
             for c in codes: # build decoding
                 self.__AddDecoder(c, i)
         self.Header = codebook["header"]
-        self.Tail = codebook["tail"]
         self.MetadataSeperator = codebook["metadata-seperator"]
         return self
 
@@ -140,26 +172,54 @@ class CodeBook(object): #Codebook for encoding and decoding
             self.__decoding[code[0]] = SymbolNode(code[0])
         self.__decoding[code[0]].Extend(code[1:], byte)
 
+    def __EncodeWrite(self, byte, bufferOut, encoded):
+        if not byte in self.__encoding:
+            FailWith("EncodingError: No encoding for byte \"{0}\"".format(byte), 30)
+        bufferOut.WriteStr(self.__encoding[byte][encoded % len(self.__encoding[byte])])
+
     def Encode(self, bufferIn, bufferOut, count):
         encoded = 0
         byte = bufferIn.Read()
-        while not bufferIn.IsEmpty() and encoded < count:
-            if not byte in self.__encoding:
-                FailWith("EncodingError: No encoding for byte \"{0}\"".format(byte), 30)
-            bufferOut.WriteStr(self.__encoding[byte][encoded % len(self.__encoding[byte])])
+        while not bufferIn.EndOfFile and encoded < count:
+            self.__EncodeWrite(byte, bufferOut, encoded)
             encoded += 1
             byte = bufferIn.Read()
+        self.__EncodeWrite(byte, bufferOut, encoded)
         return encoded
 
     def Decode(self, bufferIn, bufferOut, count):
         decoded = 0
-        while not bufferIn.IsEmpty() and decoded < count:
-            byte =  bufferIn.Read()
-            if not byte in self.__decoding:
-                FailWith("DecodingError: No decoding for byte \"{0}\"".format(byte), 40)
-            bufferOut.Write(self.__decoding.Decode(byte))
-            decoded += 1
+        while not bufferIn.EndOfFile and decoded < count:
+            char = chr(bufferIn.Read())
+            if char == self.MetadataSeperator:
+                decoded += 1
+                bufferIn.EndOfFile = True
+                return decoded
+            if not char in self.__decoding:
+                FailWith("DecodingError: No decoding for byte \"{0}\"".format(char), 40)
+            byte, count = self.__decoding[char].Decode(bufferIn)
+            bufferOut.Write(byte)
+            decoded += count
         return decoded
+
+    def SeekMetadata(self, bufferIn):
+        string = ""
+        index = 0
+        while True:
+            string += chr(bufferIn.Read())
+            if self.Header in string:
+                break
+            if bufferIn.EndOfFile or len(string) >= DEFAULT_BUFFER_SIZE * 10: #Just in case someone inputs the wrong file (and it is massive)
+                FailWith("DecodingError: Unable to locate header \"{0}\"".format(self.Header), 41)
+        metadataString = ""
+        while True:
+            metadataString += chr(bufferIn.Read())
+            if metadataString.count(self.MetadataSeperator) == 3:
+                break
+            if bufferIn.EndOfFile or len(string) >= DEFAULT_BUFFER_SIZE * 10: #Just in case someone inputs the wrong file (and it is massive)
+                FailWith("DecodingError: Unable to locate metadata", 42)
+        components = metadataString.split(self.MetadataSeperator)
+        return (components[1], components[2])
 
 #Methods
 def UniqueFilename(filename, extension): #Gets a filename that is not currently in use
@@ -171,37 +231,52 @@ def UniqueFilename(filename, extension): #Gets a filename that is not currently 
         i += 1
     return "{0}({1}){2}".format(filename, i, ext)
 
-def GetInputFile(arguments): #Gets the input file
-    if arguments.filein is None:
+def GetInputFile(filenameOverride): #Gets the input file
+    if filenameOverride is None:
         return BufferedInput()
-    return BufferedFile(arguments.filein, False, DEFAULT_BUFFER_SIZE)
+    return BufferedFile(filenameOverride, False, DEFAULT_BUFFER_SIZE)
 
-def GetOutputFile(arguments): #Gets the output file
-    if arguments.fileout is None:
+def GetOutputFile(filenameOverride): #Gets the output file
+    if filenameOverride is None:
         filename = UniqueFilename(DEFAULT_FILENAME, DEFAULT_EXTENSION)
     else:
-        name, ext = os.path.splitext(arguments.fileout)
+        name, ext = os.path.splitext(filenameOverride) #Need to ensure filename is unique for decoding
         filename = UniqueFilename(name, ext)
     return BufferedFile(filename, True, DEFAULT_BUFFER_SIZE)
 
 def Decode(arguments): #Performs the decoding
-    FailWith("Not implemented", 1)
-    print("Complete: Encoded data saved in {0}".format(fileOut.Filename))
+    codebook = GetCodebook(arguments)
+    fileIn = GetInputFile(arguments.filein)
+    version, filename = codebook.SeekMetadata(fileIn)
+    fileOut = GetOutputFile(arguments.fileout or filename)
+    display = ProgressDisplay(DEFAULT_BUFFER_SIZE).Begin()
+    try:
+        while not fileIn.EndOfFile:
+            count = codebook.Decode(fileIn, fileOut, DEFAULT_BUFFER_SIZE)
+            display.Update(count)
+        display.End()
+    finally:
+        fileIn.Close()
+        fileOut.Close()
+    print("Complete: Decoded file saved as \"{0}\"".format(fileOut.Filename))
 
 def Encode(arguments): #Performs the encoding
     codebook = GetCodebook(arguments)
-    fileIn = GetInputFile(arguments)
-    fileOut = GetOutputFile(arguments)
+    fileIn = GetInputFile(arguments.filein)
+    fileOut = GetOutputFile(arguments.fileout)
+    display = ProgressDisplay(DEFAULT_BUFFER_SIZE).Begin()
     try:
         fileOut.WriteStr(codebook.Header)
         fileOut.WriteStr("{0}{1}{0}{2}{0}".format(codebook.MetadataSeperator, VERSION, ntpath.basename(fileIn.Filename)))
         while not fileIn.EndOfFile:
-            codebook.Encode(fileIn, fileOut, DEFAULT_BUFFER_SIZE)
-        fileOut.WriteStr(codebook.Tail)
+            count = codebook.Encode(fileIn, fileOut, DEFAULT_BUFFER_SIZE)
+            display.Update(count)
+        fileOut.WriteStr("{0}{1}".format(codebook.MetadataSeperator, codebook.Header))
+        display.End()
     finally:
         fileIn.Close()
         fileOut.Close()
-    print("Complete: Encoded data saved in {0}".format(fileOut.Filename))
+    print("Complete: Encoded data saved in \"{0}\"".format(fileOut.Filename))
 
 def FailWith(message, code): #Displays an error message and exits
     print(message)
