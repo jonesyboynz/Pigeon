@@ -15,6 +15,17 @@ DEFAULT_CODEBOOK="""
 """
 
 #Classes
+class PigeonError(Exception): #Custom exception
+    def __init__(self, type, code, message):
+        self.Type = type
+        self.Code = code #Used as the exit code
+        self.Message = message
+        super().__init__(self.Message)
+
+    def ExitWithMessage(self):
+        print("{0}: {1}".format(self.Type, self.Message))
+        exit(self.Code)
+
 class ProgressDisplay(object): #For displaying encoding/decoding progress
     def __init__(self, target):
         self.__target = target
@@ -27,7 +38,7 @@ class ProgressDisplay(object): #For displaying encoding/decoding progress
     def Update(self, count):
         self.__count += count
         if self.__count >= self.__target:
-            print("{0}... ".format(self.__target), end="")
+            print("{0}... ".format(self.__target), end="" if count % 4 == 0 else "\n")
             sys.stdout.flush()
             self.__target = self.__target * 2
 
@@ -116,7 +127,7 @@ class SymbolNode(object): #Node in the decoding state-machine
 
     def Extend(self, code, byte):
         if self.Byte is not None:
-            FailWith("CodeBookError: Bytes {0} and {1} mapped to the same path!".format(self.Byte, byte), 23)
+            raise PigeonError("CodeBookError", 23, "Bytes {0} and {1} mapped to the same path!".format(self.Byte, byte))
         if len(code) == 0:
             self.Byte = byte
             return
@@ -130,10 +141,10 @@ class SymbolNode(object): #Node in the decoding state-machine
             return (self.Byte, 1)
         byte = bufferIn.Read()
         if byte is None:
-            FailWith("DecodingError: Unable to parse file", 43)
+            raise PigeonError("DecodingError", 43, "Unable to parse file")
         char = chr(byte)
         if char not in self.__children:
-            FailWith("DecodingError: Unable to decode {0} from {1}".format(char, self.Char), 44)
+            raise PigeonError("DecodingError", 44, "Unable to decode {0} from {1}".format(char, self.Char))
         decodedByte, count = self.__children[char].Decode(bufferIn)
         return (decodedByte, count + 1)
 
@@ -154,10 +165,10 @@ class CodeBook(object): #Codebook for encoding and decoding
         codebook = json.loads(self.__json)
         for i in range(0, 256):
             if str(i) not in codebook:
-                FailWith("CodeBookError: Byte {0} not in codebook".format(i), 21)
+                raise PigeonError("CodeBookError", 21, "Byte {0} not in codebook".format(i))
             codes = codebook[str(i)]
             if len(codes) == 0:
-                FailWith("CodeBookError: No codes specified for byte {0}".format(i), 22)
+                raise PigeonError("CodeBookError", 22, "No codes specified for byte {0}".format(i))
             self.__encoding[i] = codes # build encoding
             for c in codes: # build decoding
                 self.__AddDecoder(c, i)
@@ -167,9 +178,9 @@ class CodeBook(object): #Codebook for encoding and decoding
 
     def __AddDecoder(self, code, byte):
         if len(code) == 0:
-            FailWith("CodeBookError: Byte {0} contains an empty code".format(byte), 23)
+            raise PigeonError("CodeBookError", 23, "Byte {0} contains an empty code".format(byte))
         if code[0] in self.__decoding and len(code) == 1:
-            FailWith("CodeBookError: Byte {0} contains a duplicated codeword".format(byte), 24)
+            raise PigeonError("CodeBookError", 24, "Byte {0} contains a duplicated codeword".format(byte))
         elif code[0] not in self.__decoding:
             self.__decoding[code[0]] = SymbolNode(code[0])
         self.__decoding[code[0]].Extend(code[1:], byte)
@@ -195,7 +206,7 @@ class CodeBook(object): #Codebook for encoding and decoding
                 bufferIn.EndOfFile = True
                 return decoded
             if not char in self.__decoding:
-                FailWith("DecodingError: No decoding for byte \"{0}\"".format(char), 40)
+                raise PigeonError("DecodingError", 40, "No decoding for byte \"{0}\"".format(char))
             byte, count = self.__decoding[char].Decode(bufferIn)
             bufferOut.Write(byte)
             decoded += count
@@ -209,14 +220,14 @@ class CodeBook(object): #Codebook for encoding and decoding
             if self.Header in string:
                 break
             if bufferIn.EndOfFile or len(string) >= DEFAULT_BUFFER_SIZE * 10: #Just in case someone inputs the wrong file (and it is massive)
-                FailWith("DecodingError: Unable to locate header \"{0}\"".format(self.Header), 41)
+                raise PigeonError("DecodingError", 41, "Unable to locate header \"{0}\"".format(self.Header))
         metadataString = ""
         while True:
             metadataString += chr(bufferIn.Read())
             if metadataString.count(self.MetadataSeperator) == 3:
                 break
             if bufferIn.EndOfFile or len(string) >= DEFAULT_BUFFER_SIZE * 10: #Just in case someone inputs the wrong file (and it is massive)
-                FailWith("DecodingError: Unable to locate metadata", 42)
+                raise PigeonError("DecodingError", 42, "Unable to locate metadata")
         components = metadataString.split(self.MetadataSeperator)
         return (components[1], components[2])
 
@@ -283,11 +294,11 @@ def FailWith(message, code): #Displays an error message and exits
 
 def ValidateArguments(arguments): #Validates the command line arguments
     if arguments.filein is not None and not os.path.exists(arguments.filein):
-        FailWith("ArgumentError: Input file \"{0}\" does not exist!".format(arguments.filein), 10)
+        raise PigeonError("ArgumentError", 10, "Input file \"{0}\" does not exist!".format(arguments.filein))
     if arguments.fileout is not None and os.path.exists(arguments.fileout):
-        FailWith("ArgumentError: Output file \"{0}\" already exists!".format(arguments.fileout), 11)
+        raise PigeonError("ArgumentError", 11, "Output file \"{0}\" already exists!".format(arguments.fileout))
     if arguments.codebook is not None and not os.path.exists(arguments.codebook):
-        FailWith("ArgumentError: Codebook file \"{0}\" does not exist!".format(arguments.codebook), 12)
+        raise PigeonError("ArgumentError", 12, "Codebook file \"{0}\" does not exist!".format(arguments.codebook))
     if arguments.mode.startswith("e") and arguments.filein is None:
         print("Warning: Text input is not reccomended for file input. Command line encoding may not support the file's content.")
 
@@ -309,11 +320,14 @@ def ParseArguments(): #Parses the command line arguments
 
 def Main(): #Ye 'ol main
     arguments = ParseArguments()
-    ValidateArguments(arguments)
-    if arguments.mode.startswith("e"):
-        Encode(arguments)
-    elif arguments.mode.startswith("d"):
-        Decode(arguments)
+    try:
+        ValidateArguments(arguments)
+        if arguments.mode.startswith("e"):
+            Encode(arguments)
+        elif arguments.mode.startswith("d"):
+            Decode(arguments)
+    except PigeonError as e:
+        e.ExitWithMessage()
 
 if __name__ == "__main__":
     Main()

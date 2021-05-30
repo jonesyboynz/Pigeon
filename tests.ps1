@@ -6,15 +6,16 @@ Write-Host "Setting up test data" -ForegroundColor magenta -BackgroundColor blac
 $testFiles = @(
   @("test/data/basic.txt", "test/data/basic.pgy"),
   @("test/data/basic-no-extension", "test/data/basic-no-extension.pgy"),
-  @("test/data/empty.x.y.z", "test/data/empty.x.y.z.pgy")
-  # run faster for now @("test/data/nippon.png", "test/data/japan.pgy")
+  @("test/data/empty.x.y.z", "test/data/empty.x.y.z.pgy"),
+  @("test/data/nippon.png", "test/data/japan.pgy")
+  # run faster for now
 )
 
 $unitTestFiles = @(
-  "test/unittests/SymbolNodeUnitTests.py"
+  "test/unit-tests/symbol-node-unit-tests.py"
 )
 
-Copy-Item "pigeon.py" -Destination "test/unittests/pigeon.py"
+Copy-Item "pigeon.py" -Destination "test/unit-tests/ut_pigeon.py"
 
 
 Write-Host "Unit tests" -ForegroundColor magenta -BackgroundColor black
@@ -92,7 +93,7 @@ Foreach ($pair in $testFiles)
   $foriginal = $pair[0]
   $fdecoded = $pair[0]+".pgy-decoded"
   Write-Host "    $foriginal and $fdecoded" -ForegroundColor cyan -BackgroundColor black
-  python test/data/FilesMatch.py $foriginal $fdecoded
+  python test/data/files-match.py $foriginal $fdecoded
   if( -not $? )
   {
     Write-Host "Files do not match. Exiting." -ForegroundColor red -BackgroundColor black
