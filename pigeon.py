@@ -11,7 +11,7 @@ DEFAULT_BUFFER_SIZE = 10000
 DEFAULT_FILENAME = "message"
 DEFAULT_EXTENSION = ".pgy"
 DEFAULT_CODEBOOK="""
-{"0": ["000"], "1": ["001"], "2": ["002"], "3": ["003"], "4": ["004"], "5": ["005"], "6": ["006"], "7": ["007"], "8": ["008"], "9": ["009"], "10": ["010"], "11": ["011"], "12": ["012"], "13": ["013"], "14": ["014"], "15": ["015"], "16": ["016"], "17": ["017"], "18": ["018"], "19": ["019"], "20": ["020"], "21": ["021"], "22": ["022"], "23": ["023"], "24": ["024"], "25": ["025"], "26": ["026"], "27": ["027"], "28": ["028"], "29": ["029"], "30": ["030"], "31": ["031"], "32": ["032"], "33": ["033"], "34": ["034"], "35": ["035"], "36": ["036"], "37": ["037"], "38": ["038"], "39": ["039"], "40": ["040"], "41": ["041"], "42": ["042"], "43": ["043"], "44": ["044"], "45": ["045"], "46": ["046"], "47": ["047"], "48": ["048"], "49": ["049"], "50": ["050"], "51": ["051"], "52": ["052"], "53": ["053"], "54": ["054"], "55": ["055"], "56": ["056"], "57": ["057"], "58": ["058"], "59": ["059"], "60": ["060"], "61": ["061"], "62": ["062"], "63": ["063"], "64": ["064"], "65": ["065"], "66": ["066"], "67": ["067"], "68": ["068"], "69": ["069"], "70": ["070"], "71": ["071"], "72": ["072"], "73": ["073"], "74": ["074"], "75": ["075"], "76": ["076"], "77": ["077"], "78": ["078"], "79": ["079"], "80": ["080"], "81": ["081"], "82": ["082"], "83": ["083"], "84": ["084"], "85": ["085"], "86": ["086"], "87": ["087"], "88": ["088"], "89": ["089"], "90": ["090"], "91": ["091"], "92": ["092"], "93": ["093"], "94": ["094"], "95": ["095"], "96": ["096"], "97": ["097"], "98": ["098"], "99": ["099"], "100": ["100"], "101": ["101"], "102": ["102"], "103": ["103"], "104": ["104"], "105": ["105"], "106": ["106"], "107": ["107"], "108": ["108"], "109": ["109"], "110": ["110"], "111": ["111"], "112": ["112"], "113": ["113"], "114": ["114"], "115": ["115"], "116": ["116"], "117": ["117"], "118": ["118"], "119": ["119"], "120": ["120"], "121": ["121"], "122": ["122"], "123": ["123"], "124": ["124"], "125": ["125"], "126": ["126"], "127": ["127"], "128": ["128"], "129": ["129"], "130": ["130"], "131": ["131"], "132": ["132"], "133": ["133"], "134": ["134"], "135": ["135"], "136": ["136"], "137": ["137"], "138": ["138"], "139": ["139"], "140": ["140"], "141": ["141"], "142": ["142"], "143": ["143"], "144": ["144"], "145": ["145"], "146": ["146"], "147": ["147"], "148": ["148"], "149": ["149"], "150": ["150"], "151": ["151"], "152": ["152"], "153": ["153"], "154": ["154"], "155": ["155"], "156": ["156"], "157": ["157"], "158": ["158"], "159": ["159"], "160": ["160"], "161": ["161"], "162": ["162"], "163": ["163"], "164": ["164"], "165": ["165"], "166": ["166"], "167": ["167"], "168": ["168"], "169": ["169"], "170": ["170"], "171": ["171"], "172": ["172"], "173": ["173"], "174": ["174"], "175": ["175"], "176": ["176"], "177": ["177"], "178": ["178"], "179": ["179"], "180": ["180"], "181": ["181"], "182": ["182"], "183": ["183"], "184": ["184"], "185": ["185"], "186": ["186"], "187": ["187"], "188": ["188"], "189": ["189"], "190": ["190"], "191": ["191"], "192": ["192"], "193": ["193"], "194": ["194"], "195": ["195"], "196": ["196"], "197": ["197"], "198": ["198"], "199": ["199"], "200": ["200"], "201": ["201"], "202": ["202"], "203": ["203"], "204": ["204"], "205": ["205"], "206": ["206"], "207": ["207"], "208": ["208"], "209": ["209"], "210": ["210"], "211": ["211"], "212": ["212"], "213": ["213"], "214": ["214"], "215": ["215"], "216": ["216"], "217": ["217"], "218": ["218"], "219": ["219"], "220": ["220"], "221": ["221"], "222": ["222"], "223": ["223"], "224": ["224"], "225": ["225"], "226": ["226"], "227": ["227"], "228": ["228"], "229": ["229"], "230": ["230"], "231": ["231"], "232": ["232"], "233": ["233"], "234": ["234"], "235": ["235"], "236": ["236"], "237": ["237"], "238": ["238"], "239": ["239"], "240": ["240"], "241": ["241"], "242": ["242"], "243": ["243"], "244": ["244"], "245": ["245"], "246": ["246"], "247": ["247"], "248": ["248"], "249": ["249"], "250": ["250"], "251": ["251"], "252": ["252"], "253": ["253"], "254": ["254"], "255": ["255"], "header": "!!!p1ge0n", "metadata-seperator": ":"}
+{"0": ["+z"], "1": ["+y"], "2": ["+x"], "3": ["+w"], "4": ["+v"], "5": ["+u"], "6": ["+t"], "7": ["+s"], "8": ["+r"], "9": ["+q"], "10": ["+p"], "11": ["+o"], "12": ["+n"], "13": ["+m"], "14": ["+l"], "15": ["+k"], "16": ["+j"], "17": ["+i"], "18": ["+h"], "19": ["+g"], "20": ["+f"], "21": ["+e"], "22": ["+d"], "23": ["+c"], "24": ["+b"], "25": ["+a"], "26": ["+9"], "27": ["+8"], "28": ["+7"], "29": ["+6"], "30": ["+5"], "31": ["+4"], "32": ["+3"], "33": ["+2"], "34": ["+1"], "35": ["+0"], "36": ["+Z"], "37": ["+Y"], "38": ["+X"], "39": ["+W"], "40": ["+V"], "41": ["+U"], "42": ["+T"], "43": ["+S"], "44": ["+R"], "45": ["+Q"], "46": ["+P"], "47": ["+O"], "48": ["z"], "49": ["y"], "50": ["x"], "51": ["w"], "52": ["v"], "53": ["u"], "54": ["t"], "55": ["s"], "56": ["r"], "57": ["q"], "58": ["+N"], "59": ["+M"], "60": ["+L"], "61": ["+K"], "62": ["+J"], "63": ["+I"], "64": ["+H"], "65": ["p"], "66": ["o"], "67": ["n"], "68": ["m"], "69": ["l"], "70": ["k"], "71": ["j"], "72": ["i"], "73": ["h"], "74": ["g"], "75": ["f"], "76": ["e"], "77": ["d"], "78": ["c"], "79": ["b"], "80": ["a"], "81": ["9"], "82": ["8"], "83": ["7"], "84": ["6"], "85": ["5"], "86": ["4"], "87": ["3"], "88": ["2"], "89": ["1"], "90": ["0"], "91": ["+G"], "92": ["+F"], "93": ["+E"], "94": ["+D"], "95": ["+C"], "96": ["+B"], "97": ["Z"], "98": ["Y"], "99": ["X"], "100": ["W"], "101": ["V"], "102": ["U"], "103": ["T"], "104": ["S"], "105": ["R"], "106": ["Q"], "107": ["P"], "108": ["O"], "109": ["N"], "110": ["M"], "111": ["L"], "112": ["K"], "113": ["J"], "114": ["I"], "115": ["H"], "116": ["G"], "117": ["F"], "118": ["E"], "119": ["D"], "120": ["C"], "121": ["B"], "122": ["A"], "123": ["-z"], "124": ["-y"], "125": ["-x"], "126": ["-w"], "127": ["-v"], "128": ["-u"], "129": ["-t"], "130": ["-s"], "131": ["-r"], "132": ["-q"], "133": ["-p"], "134": ["-o"], "135": ["-n"], "136": ["-m"], "137": ["-l"], "138": ["-k"], "139": ["-j"], "140": ["-i"], "141": ["-h"], "142": ["-g"], "143": ["-f"], "144": ["-e"], "145": ["-d"], "146": ["-c"], "147": ["-b"], "148": ["-a"], "149": ["-9"], "150": ["-8"], "151": ["-7"], "152": ["-6"], "153": ["-5"], "154": ["-4"], "155": ["-3"], "156": ["-2"], "157": ["-1"], "158": ["-0"], "159": ["-Z"], "160": ["-Y"], "161": ["-X"], "162": ["-W"], "163": ["-V"], "164": ["-U"], "165": ["-T"], "166": ["-S"], "167": ["-R"], "168": ["-Q"], "169": ["-P"], "170": ["-O"], "171": ["-N"], "172": ["-M"], "173": ["-L"], "174": ["-K"], "175": ["-J"], "176": ["-I"], "177": ["-H"], "178": ["-G"], "179": ["-F"], "180": ["-E"], "181": ["-D"], "182": ["-C"], "183": ["-B"], "184": ["-A"], "185": ["=z"], "186": ["=y"], "187": ["=x"], "188": ["=w"], "189": ["=v"], "190": ["=u"], "191": ["=t"], "192": ["=s"], "193": ["=r"], "194": ["=q"], "195": ["=p"], "196": ["=o"], "197": ["=n"], "198": ["=m"], "199": ["=l"], "200": ["=k"], "201": ["=j"], "202": ["=i"], "203": ["=h"], "204": ["=g"], "205": ["=f"], "206": ["=e"], "207": ["=d"], "208": ["=c"], "209": ["=b"], "210": ["=a"], "211": ["=9"], "212": ["=8"], "213": ["=7"], "214": ["=6"], "215": ["=5"], "216": ["=4"], "217": ["=3"], "218": ["=2"], "219": ["=1"], "220": ["=0"], "221": ["=Z"], "222": ["=Y"], "223": ["=X"], "224": ["=W"], "225": ["=V"], "226": ["=U"], "227": ["=T"], "228": ["=S"], "229": ["=R"], "230": ["=Q"], "231": ["=P"], "232": ["=O"], "233": ["=N"], "234": ["=M"], "235": ["=L"], "236": ["=K"], "237": ["=J"], "238": ["=I"], "239": ["=H"], "240": ["=G"], "241": ["=F"], "242": ["=E"], "243": ["=D"], "244": ["=C"], "245": ["=B"], "246": ["=A"], "247": ["?z"], "248": ["?y"], "249": ["?x"], "250": ["?w"], "251": ["?v"], "252": ["?u"], "253": ["?t"], "254": ["?s"], "255": ["?r"], "header": "!!!p1ge0n", "metadata-seperator": ":", "description": "Basic encoding. Provides a single symbol for each byte and the max symbol length is 2. All symbols should be permitted in emails."}
 """
 
 #Classes
@@ -50,7 +50,7 @@ class BufferedInput(object): #Buffered command line input
         self.__index = 0
 
     def Read(self):
-        if self.__index >= len(self.__buffer) - 1:
+        if self.__index >= len(self.__buffer):
             try:
                 self.__PopulateBuffer()
             except (EOFError, KeyboardInterrupt):
@@ -84,7 +84,7 @@ class BufferedFile(object): #Buffered file input and output
         self.EndOfFile = len(self.__buffer) == 0
 
     def Read(self):
-        if self.__index >= len(self.__buffer) - 1:
+        if self.__index >= len(self.__buffer):
             self.__PopulateBuffer()
         if not self.EndOfFile:
             value = self.__buffer[self.__index]
@@ -153,9 +153,11 @@ class CodeBook(object): #Codebook for encoding and decoding
     def Build(self):
         codebook = json.loads(self.__json)
         for i in range(0, 256):
+            if str(i) not in codebook:
+                FailWith("CodeBookError: Byte {0} not in codebook".format(i), 21)
             codes = codebook[str(i)]
             if len(codes) == 0:
-                FailWith("CodeBookError: No codes specified for byte {0}".format(i), 20)
+                FailWith("CodeBookError: No codes specified for byte {0}".format(i), 22)
             self.__encoding[i] = codes # build encoding
             for c in codes: # build decoding
                 self.__AddDecoder(c, i)
@@ -165,16 +167,14 @@ class CodeBook(object): #Codebook for encoding and decoding
 
     def __AddDecoder(self, code, byte):
         if len(code) == 0:
-            FailWith("CodeBookError: Byte {0} contains an empty code".format(byte), 21)
+            FailWith("CodeBookError: Byte {0} contains an empty code".format(byte), 23)
         if code[0] in self.__decoding and len(code) == 1:
-            FailWith("CodeBookError: Byte {0} contains a duplicated codeword".format(byte), 22)
+            FailWith("CodeBookError: Byte {0} contains a duplicated codeword".format(byte), 24)
         elif code[0] not in self.__decoding:
             self.__decoding[code[0]] = SymbolNode(code[0])
         self.__decoding[code[0]].Extend(code[1:], byte)
 
     def __EncodeWrite(self, byte, bufferOut, encoded):
-        if not byte in self.__encoding:
-            FailWith("EncodingError: No encoding for byte \"{0}\"".format(byte), 30)
         bufferOut.WriteStr(self.__encoding[byte][encoded % len(self.__encoding[byte])])
 
     def Encode(self, bufferIn, bufferOut, count):
@@ -184,7 +184,6 @@ class CodeBook(object): #Codebook for encoding and decoding
             self.__EncodeWrite(byte, bufferOut, encoded)
             encoded += 1
             byte = bufferIn.Read()
-        self.__EncodeWrite(byte, bufferOut, encoded)
         return encoded
 
     def Decode(self, bufferIn, bufferOut, count):
@@ -231,28 +230,28 @@ def UniqueFilename(filename, extension): #Gets a filename that is not currently 
         i += 1
     return "{0}({1}){2}".format(filename, i, ext)
 
-def GetInputFile(filenameOverride): #Gets the input file
+def GetInputFile(filenameOverride, buffer): #Gets the input file
     if filenameOverride is None:
         return BufferedInput()
-    return BufferedFile(filenameOverride, False, DEFAULT_BUFFER_SIZE)
+    return BufferedFile(filenameOverride, False, buffer)
 
-def GetOutputFile(filenameOverride): #Gets the output file
+def GetOutputFile(filenameOverride, buffer): #Gets the output file
     if filenameOverride is None:
         filename = UniqueFilename(DEFAULT_FILENAME, DEFAULT_EXTENSION)
     else:
         name, ext = os.path.splitext(filenameOverride) #Need to ensure filename is unique for decoding
         filename = UniqueFilename(name, ext)
-    return BufferedFile(filename, True, DEFAULT_BUFFER_SIZE)
+    return BufferedFile(filename, True, buffer)
 
 def Decode(arguments): #Performs the decoding
     codebook = GetCodebook(arguments)
-    fileIn = GetInputFile(arguments.filein)
+    fileIn = GetInputFile(arguments.filein, arguments.buffer)
     version, filename = codebook.SeekMetadata(fileIn)
-    fileOut = GetOutputFile(arguments.fileout or filename)
-    display = ProgressDisplay(DEFAULT_BUFFER_SIZE).Begin()
+    fileOut = GetOutputFile(arguments.fileout or filename, arguments.buffer)
+    display = ProgressDisplay(arguments.buffer).Begin()
     try:
         while not fileIn.EndOfFile:
-            count = codebook.Decode(fileIn, fileOut, DEFAULT_BUFFER_SIZE)
+            count = codebook.Decode(fileIn, fileOut, arguments.buffer)
             display.Update(count)
         display.End()
     finally:
@@ -262,14 +261,14 @@ def Decode(arguments): #Performs the decoding
 
 def Encode(arguments): #Performs the encoding
     codebook = GetCodebook(arguments)
-    fileIn = GetInputFile(arguments.filein)
-    fileOut = GetOutputFile(arguments.fileout)
-    display = ProgressDisplay(DEFAULT_BUFFER_SIZE).Begin()
+    fileIn = GetInputFile(arguments.filein, arguments.buffer)
+    fileOut = GetOutputFile(arguments.fileout, arguments.buffer)
+    display = ProgressDisplay(arguments.buffer).Begin()
     try:
         fileOut.WriteStr(codebook.Header)
         fileOut.WriteStr("{0}{1}{0}{2}{0}".format(codebook.MetadataSeperator, VERSION, ntpath.basename(fileIn.Filename)))
         while not fileIn.EndOfFile:
-            count = codebook.Encode(fileIn, fileOut, DEFAULT_BUFFER_SIZE)
+            count = codebook.Encode(fileIn, fileOut, arguments.buffer)
             display.Update(count)
         fileOut.WriteStr("{0}{1}".format(codebook.MetadataSeperator, codebook.Header))
         display.End()
@@ -305,6 +304,7 @@ def ParseArguments(): #Parses the command line arguments
     parser.add_argument("--filein", type=str, help="Input file. Consumes stdin if not specified.")
     parser.add_argument("--fileout", type=str, help="Overrides the name of the output file.")
     parser.add_argument("--codebook", type=str, help="Supplies a codebook for encoding/decoding.")
+    parser.add_argument("--buffer", default=DEFAULT_BUFFER_SIZE, type=lambda x: 1000 if x < 1000 else x, help="Sets the input/output buffer size.")
     return parser.parse_args()
 
 def Main(): #Ye 'ol main

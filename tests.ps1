@@ -1,4 +1,7 @@
-./clean.ps1
+Write-Host "Running tests" -ForegroundColor yellow -BackgroundColor black
+
+
+Write-Host "Setting up test data" -ForegroundColor magenta -BackgroundColor black
 
 $testFiles = @(
   @("test/data/basic.txt", "test/data/basic.pgy"),
@@ -7,7 +10,27 @@ $testFiles = @(
   # run faster for now @("test/data/nippon.png", "test/data/japan.pgy")
 )
 
-Write-Host "Encoding files" -ForegroundColor green -BackgroundColor black
+$unitTestFiles = @(
+  "test/unittests/SymbolNodeUnitTests.py"
+)
+
+Copy-Item "pigeon.py" -Destination "test/unittests/pigeon.py"
+
+
+Write-Host "Unit tests" -ForegroundColor magenta -BackgroundColor black
+
+Foreach ($unitTest in $unitTestFiles)
+{
+  python $unitTest
+  if( -not $? )
+  {
+    Write-Host "Unit test(s) failed. Exiting." -ForegroundColor red -BackgroundColor black
+    exit
+  }
+}
+
+
+Write-Host "Encoding files" -ForegroundColor magenta -BackgroundColor black
 
 Foreach ($pair in $testFiles)
 {
@@ -22,7 +45,8 @@ Foreach ($pair in $testFiles)
   }
 }
 
-Write-Host "Encoding file with input stream" -ForegroundColor green -BackgroundColor black
+
+Write-Host "Encoding file with input stream" -ForegroundColor magenta -BackgroundColor black
 $fin = $testFiles[0][0]
 Write-Host "    $fin" -ForegroundColor cyan -BackgroundColor black
 Get-Content $fin | python pigeon.py encode
@@ -32,7 +56,8 @@ if( -not $? )
   exit
 }
 
-Write-Host "Encoding file multiple times with input stream" -ForegroundColor green -BackgroundColor black
+
+Write-Host "Encoding file multiple times with input stream" -ForegroundColor magenta -BackgroundColor black
 $fin = $testFiles[0][0]
 Write-Host "    $fin" -ForegroundColor cyan -BackgroundColor black
 Get-Content $fin | python pigeon.py encode
@@ -43,7 +68,8 @@ if( -not $? )
   exit
 }
 
-Write-Host "Decoding files" -ForegroundColor green -BackgroundColor black
+
+Write-Host "Decoding files" -ForegroundColor magenta -BackgroundColor black
 
 Foreach ($pair in $testFiles)
 {
@@ -57,3 +83,21 @@ Foreach ($pair in $testFiles)
     exit
   }
 }
+
+
+Write-Host "Checking decoded files match" -ForegroundColor magenta -BackgroundColor black
+
+Foreach ($pair in $testFiles)
+{
+  $foriginal = $pair[0]
+  $fdecoded = $pair[0]+".pgy-decoded"
+  Write-Host "    $foriginal and $fdecoded" -ForegroundColor cyan -BackgroundColor black
+  python test/data/FilesMatch.py $foriginal $fdecoded
+  if( -not $? )
+  {
+    Write-Host "Files do not match. Exiting." -ForegroundColor red -BackgroundColor black
+    exit
+  }
+}
+
+Write-Host "Finished tests" -ForegroundColor green -BackgroundColor black
