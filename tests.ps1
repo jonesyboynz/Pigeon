@@ -12,7 +12,7 @@ $testFiles = @(
 )
 
 $unitTestFiles = @(
-  "test/unit-tests/symbol-node-unit-tests.py"
+  "test/unit-tests/SymbolNodeUnitTests.py"
 )
 
 Copy-Item "pigeon.py" -Destination "test/unit-tests/ut_pigeon.py"
