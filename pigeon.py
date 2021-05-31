@@ -38,7 +38,7 @@ class ProgressDisplay(object): #For displaying encoding/decoding progress
     def Update(self, count):
         self.__count += count
         if self.__count >= self.__target:
-            print("{0}... ".format(self.__target), end="" if count % 4 == 0 else "\n")
+            print("{0}... ".format(self.__target), end="")
             sys.stdout.flush()
             self.__target = self.__target * 2
 
@@ -194,7 +194,8 @@ class CodeBook(object): #Codebook for encoding and decoding
         while not bufferIn.EndOfFile and encoded < count:
             self.__EncodeWrite(byte, bufferOut, encoded)
             encoded += 1
-            byte = bufferIn.Read()
+            if encoded < count:
+                byte = bufferIn.Read()
         return encoded
 
     def Decode(self, bufferIn, bufferOut, count):
@@ -256,50 +257,50 @@ def GetOutputFile(filenameOverride, buffer): #Gets the output file
 
 def Decode(arguments): #Performs the decoding
     codebook = GetCodebook(arguments)
-    fileIn = GetInputFile(arguments.filein, arguments.buffer)
-    version, filename = codebook.SeekMetadata(fileIn)
-    fileOut = GetOutputFile(arguments.fileout or filename, arguments.buffer)
+    fin = GetInputFile(arguments.fin, arguments.buffer)
+    version, filename = codebook.SeekMetadata(fin)
+    fout = GetOutputFile(arguments.fout or filename, arguments.buffer)
     display = ProgressDisplay(arguments.buffer).Begin()
     try:
-        while not fileIn.EndOfFile:
-            count = codebook.Decode(fileIn, fileOut, arguments.buffer)
+        while not fin.EndOfFile:
+            count = codebook.Decode(fin, fout, arguments.buffer)
             display.Update(count)
         display.End()
     finally:
-        fileIn.Close()
-        fileOut.Close()
-    print("Complete: Decoded file saved as \"{0}\"".format(fileOut.Filename))
+        fin.Close()
+        fout.Close()
+    print("Complete: Decoded file saved as \"{0}\"".format(fout.Filename))
 
 def Encode(arguments): #Performs the encoding
     codebook = GetCodebook(arguments)
-    fileIn = GetInputFile(arguments.filein, arguments.buffer)
-    fileOut = GetOutputFile(arguments.fileout, arguments.buffer)
+    fin = GetInputFile(arguments.fin, arguments.buffer)
+    fout = GetOutputFile(arguments.fout, arguments.buffer)
     display = ProgressDisplay(arguments.buffer).Begin()
     try:
-        fileOut.WriteStr(codebook.Header)
-        fileOut.WriteStr("{0}{1}{0}{2}{0}".format(codebook.MetadataSeperator, VERSION, ntpath.basename(fileIn.Filename)))
-        while not fileIn.EndOfFile:
-            count = codebook.Encode(fileIn, fileOut, arguments.buffer)
+        fout.WriteStr(codebook.Header)
+        fout.WriteStr("{0}{1}{0}{2}{0}".format(codebook.MetadataSeperator, VERSION, ntpath.basename(fin.Filename)))
+        while not fin.EndOfFile:
+            count = codebook.Encode(fin, fout, arguments.buffer)
             display.Update(count)
-        fileOut.WriteStr("{0}{1}".format(codebook.MetadataSeperator, codebook.Header))
+        fout.WriteStr("{0}{1}".format(codebook.MetadataSeperator, codebook.Header))
         display.End()
     finally:
-        fileIn.Close()
-        fileOut.Close()
-    print("Complete: Encoded data saved in \"{0}\"".format(fileOut.Filename))
+        fin.Close()
+        fout.Close()
+    print("Complete: Encoded data saved in \"{0}\"".format(fout.Filename))
 
 def FailWith(message, code): #Displays an error message and exits
     print(message)
     exit(code)
 
 def ValidateArguments(arguments): #Validates the command line arguments
-    if arguments.filein is not None and not os.path.exists(arguments.filein):
-        raise PigeonError("ArgumentError", 10, "Input file \"{0}\" does not exist!".format(arguments.filein))
-    if arguments.fileout is not None and os.path.exists(arguments.fileout):
-        raise PigeonError("ArgumentError", 11, "Output file \"{0}\" already exists!".format(arguments.fileout))
+    if arguments.fin is not None and not os.path.exists(arguments.fin):
+        raise PigeonError("ArgumentError", 10, "Input file \"{0}\" does not exist!".format(arguments.fin))
+    if arguments.fout is not None and os.path.exists(arguments.fout):
+        raise PigeonError("ArgumentError", 11, "Output file \"{0}\" already exists!".format(arguments.fout))
     if arguments.codebook is not None and not os.path.exists(arguments.codebook):
         raise PigeonError("ArgumentError", 12, "Codebook file \"{0}\" does not exist!".format(arguments.codebook))
-    if arguments.mode.startswith("e") and arguments.filein is None:
+    if arguments.mode.startswith("e") and arguments.fin is None:
         print("Warning: Text input is not reccomended for file input. Command line encoding may not support the file's content.")
 
 def GetCodebook(arguments): #Gets the codebook for encoding/decoding
@@ -312,10 +313,10 @@ def GetCodebook(arguments): #Gets the codebook for encoding/decoding
 def ParseArguments(): #Parses the command line arguments
     parser = argparse.ArgumentParser(description='Pidgeon arguments.')
     parser.add_argument("mode", type=str, choices=["encode", "e", "decode", "d"], help="Encode/Decode data.")
-    parser.add_argument("--filein", type=str, help="Input file. Consumes stdin if not specified.")
-    parser.add_argument("--fileout", type=str, help="Overrides the name of the output file.")
+    parser.add_argument("--fin", type=str, help="Input file. Consumes stdin if not specified.")
+    parser.add_argument("--fout", type=str, help="Overrides the name of the output file.")
     parser.add_argument("--codebook", type=str, help="Supplies a codebook for encoding/decoding.")
-    parser.add_argument("--buffer", default=DEFAULT_BUFFER_SIZE, type=lambda x: 1000 if x < 1000 else x, help="Sets the input/output buffer size.")
+    parser.add_argument("--buffer", default=DEFAULT_BUFFER_SIZE, type=lambda x: 1 if int(x) < 1 else int(x), help="Sets the input/output buffer size.")
     return parser.parse_args()
 
 def Main(): #Ye 'ol main
