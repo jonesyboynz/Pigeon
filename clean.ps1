@@ -11,4 +11,7 @@ Get-ChildItem . -Include encodings/*.json -File -Recurse | foreach { Remove-Item
 Get-ChildItem . -Include test/*.json -File -Recurse | foreach { Remove-Item -Path $_.FullName }
 
 Write-Host "    Cleaning unit test files" -ForegroundColor cyan -BackgroundColor black
-Get-ChildItem . -Include test/unit-tests/ut_pigeon.py -File -Recurse | foreach { Remove-Item -Path $_.FullName }
+$FileName = "test/unit-tests/ut_pigeon.py"
+if (Test-Path $FileName) {
+  Remove-Item $FileName
+}

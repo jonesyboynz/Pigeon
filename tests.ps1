@@ -38,7 +38,7 @@ Foreach ($pair in $testFiles)
   $fin = $pair[0]
   $fout = $pair[1]
   Write-Host "    $fin" -ForegroundColor cyan -BackgroundColor black
-  python pigeon.py encode --filein $fin --fileout $fout
+  python pigeon.py encode --fin $fin --fout $fout
   if( -not $? )
   {
     Write-Host "Failed to encode $fin. Exiting." -ForegroundColor red -BackgroundColor black
@@ -77,7 +77,7 @@ Foreach ($pair in $testFiles)
   $fin = $pair[1]
   $fout = $pair[0]+".pgy-decoded"
   Write-Host "    $fin" -ForegroundColor cyan -BackgroundColor black
-  python pigeon.py decode --filein $fin --fileout $fout
+  python pigeon.py decode --fin $fin --fout $fout
   if( -not $? )
   {
     Write-Host "Failed to decode $fin. Exiting." -ForegroundColor red -BackgroundColor black
