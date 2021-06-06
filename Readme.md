@@ -6,7 +6,8 @@ Oh no! The university administrators added a rule that disallows email attachmen
 Luckily you can transfer `document.pdf` from your work computer to your personal computer using pigeon.
 
 ### 1. Acquire Pigeon
-Acquire _pigeon.py_ on your work computer and personal computer.
+Acquire `pigeon.py` on your work computer and personal computer. (As if anyone would ever use this :joy:)
+Install _python3_ on your work computer and personal computer.
 
 ### 2. Encode
 `python pigeon.py encode --fin document.pdf --fout document-encoded.txt`  
