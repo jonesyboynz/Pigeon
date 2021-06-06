@@ -1,3 +1,5 @@
+Write-Host "Running Clean" -ForegroundColor yellow -BackgroundColor black
+
 Write-Host "Cleaning workspace" -ForegroundColor green -BackgroundColor black
 
 Write-Host "    Removing encoded files" -ForegroundColor cyan -BackgroundColor black
@@ -15,3 +17,6 @@ $FileName = "test/unit-tests/ut_pigeon.py"
 if (Test-Path $FileName) {
   Remove-Item $FileName
 }
+
+Get-ChildItem . -Include test/unit-tests/*.json -File -Recurse | foreach { Remove-Item -Path $_.FullName }
+Get-ChildItem . -Include test/unit-tests/*.test-output -File -Recurse | foreach { Remove-Item -Path $_.FullName }

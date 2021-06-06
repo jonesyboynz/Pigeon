@@ -1,7 +1,10 @@
 Write-Host "Running tests" -ForegroundColor yellow -BackgroundColor black
 
 
+
 Write-Host "Setting up test data" -ForegroundColor magenta -BackgroundColor black
+
+Write-Host "    Creating variables." -ForegroundColor cyan -BackgroundColor black
 
 $testFiles = @(
   @("test/data/basic.txt", "test/data/basic.pgy"),
@@ -12,13 +15,20 @@ $testFiles = @(
 )
 
 $unitTestFiles = @(
-  "test/unit-tests/SymbolNodeUnitTests.py"
+  "test/unit-tests/SymbolNodeUnitTests.py",
+  "test/unit-tests/EncodingEngineUnitTests.py",
+  "test/unit-tests/PigeonErrorUnitTests.py",
+  "test/unit-tests/BufferedFileUnitTests.py"
 )
 
+Write-Host "    Copying files required for tests." -ForegroundColor cyan -BackgroundColor black
+
 Copy-Item "pigeon.py" -Destination "test/unit-tests/ut_pigeon.py"
+Copy-Item "encodings/basic.json" -Destination "test/unit-tests/basic.json"
 
 
-Write-Host "Unit tests" -ForegroundColor magenta -BackgroundColor black
+
+Write-Host "Running unit tests." -ForegroundColor magenta -BackgroundColor black
 
 Foreach ($unitTest in $unitTestFiles)
 {
@@ -31,7 +41,8 @@ Foreach ($unitTest in $unitTestFiles)
 }
 
 
-Write-Host "Encoding files" -ForegroundColor magenta -BackgroundColor black
+
+Write-Host "Encoding files." -ForegroundColor magenta -BackgroundColor black
 
 Foreach ($pair in $testFiles)
 {
@@ -47,7 +58,8 @@ Foreach ($pair in $testFiles)
 }
 
 
-Write-Host "Encoding file with input stream" -ForegroundColor magenta -BackgroundColor black
+
+Write-Host "Encoding file with input stream." -ForegroundColor magenta -BackgroundColor black
 $fin = $testFiles[0][0]
 Write-Host "    $fin" -ForegroundColor cyan -BackgroundColor black
 Get-Content $fin | python pigeon.py encode
@@ -58,7 +70,8 @@ if( -not $? )
 }
 
 
-Write-Host "Encoding file multiple times with input stream" -ForegroundColor magenta -BackgroundColor black
+
+Write-Host "Encoding file multiple times with input stream." -ForegroundColor magenta -BackgroundColor black
 $fin = $testFiles[0][0]
 Write-Host "    $fin" -ForegroundColor cyan -BackgroundColor black
 Get-Content $fin | python pigeon.py encode
@@ -70,7 +83,8 @@ if( -not $? )
 }
 
 
-Write-Host "Decoding files" -ForegroundColor magenta -BackgroundColor black
+
+Write-Host "Decoding files." -ForegroundColor magenta -BackgroundColor black
 
 Foreach ($pair in $testFiles)
 {
@@ -86,7 +100,8 @@ Foreach ($pair in $testFiles)
 }
 
 
-Write-Host "Checking decoded files match" -ForegroundColor magenta -BackgroundColor black
+
+Write-Host "Checking decoded files match." -ForegroundColor magenta -BackgroundColor black
 
 Foreach ($pair in $testFiles)
 {
@@ -101,4 +116,6 @@ Foreach ($pair in $testFiles)
   }
 }
 
-Write-Host "Finished tests" -ForegroundColor green -BackgroundColor black
+
+
+Write-Host "Finished tests." -ForegroundColor green -BackgroundColor black

@@ -1,6 +1,6 @@
 Write-Host "Running build" -ForegroundColor yellow -BackgroundColor black
 
-Write-Host "    Building encoding files" -ForegroundColor cyan -BackgroundColor black
+Write-Host "    Building codebook files" -ForegroundColor cyan -BackgroundColor black
 cd encodings
 python generate-basic.py
 python generate-numeric.py

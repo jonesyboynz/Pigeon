@@ -1,7 +1,11 @@
 import unittest
 from TestBuffer import TestBuffer
-from ut_pigeon import SymbolNode, PigeonError
+from ut_pigeon import SymbolNode, PigeonError #Note - ut_pigeon is a copy of pigeon.py and is created by tests.ps1
 
+
+'''
+Tests the SymbolNode class from pigeon.py
+'''
 class SymbolNodeTests(unittest.TestCase):
 
     def test_SymbolNode_Constructor(self):
