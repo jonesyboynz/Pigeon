@@ -7,10 +7,10 @@ Write-Host "Setting up test data" -ForegroundColor magenta -BackgroundColor blac
 Write-Host "    Creating variables." -ForegroundColor cyan -BackgroundColor black
 
 $testFiles = @(
-  @("test/data/basic.txt", "test/data/basic.pgy"),
-  @("test/data/basic-no-extension", "test/data/basic-no-extension.pgy"),
-  @("test/data/empty.x.y.z", "test/data/empty.x.y.z.pgy"),
-  @("test/data/nippon.png", "test/data/japan.pgy")
+  @("test/data/basic.txt", "test/data/basic.dropping"),
+  @("test/data/basic-no-extension", "test/data/basic-no-extension.dropping"),
+  @("test/data/empty.x.y.z", "test/data/empty.x.y.z.dropping"),
+  @("test/data/nippon.png", "test/data/japan.dropping")
   # run faster for now
 )
 
@@ -90,7 +90,7 @@ Write-Host "Decoding files." -ForegroundColor magenta -BackgroundColor black
 Foreach ($pair in $testFiles)
 {
   $fin = $pair[1]
-  $fout = $pair[0]+".pgy-decoded"
+  $fout = $pair[0]+".decoded"
   Write-Host "    $fin" -ForegroundColor cyan -BackgroundColor black
   python pigeon.py decode --fin $fin --fout $fout
   if( -not $? )
@@ -107,7 +107,7 @@ Write-Host "Checking decoded files match." -ForegroundColor magenta -BackgroundC
 Foreach ($pair in $testFiles)
 {
   $foriginal = $pair[0]
-  $fdecoded = $pair[0]+".pgy-decoded"
+  $fdecoded = $pair[0]+".decoded"
   Write-Host "    $foriginal and $fdecoded" -ForegroundColor cyan -BackgroundColor black
   python test/data/files-match.py $foriginal $fdecoded
   if( -not $? )

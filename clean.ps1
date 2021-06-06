@@ -3,10 +3,10 @@ Write-Host "Running Clean" -ForegroundColor yellow -BackgroundColor black
 Write-Host "Cleaning workspace" -ForegroundColor green -BackgroundColor black
 
 Write-Host "    Removing encoded files" -ForegroundColor cyan -BackgroundColor black
-Get-ChildItem . -Include *.pgy -File -Recurse | foreach { Remove-Item -Path $_.FullName }
+Get-ChildItem . -Include *.dropping -File -Recurse | foreach { Remove-Item -Path $_.FullName }
 
 Write-Host "    Removing decoded files" -ForegroundColor cyan -BackgroundColor black
-Get-ChildItem . -Include *.pgy-decoded -File -Recurse | foreach { Remove-Item -Path $_.FullName }
+Get-ChildItem . -Include *.decoded -File -Recurse | foreach { Remove-Item -Path $_.FullName }
 
 Write-Host "    Removing codebook files" -ForegroundColor cyan -BackgroundColor black
 Get-ChildItem encodings/ -Include *.json -File -Recurse | foreach { Remove-Item -Path $_.FullName }
