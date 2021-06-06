@@ -17,7 +17,7 @@ Create _document-encoded.txt_ on your personal computer.
 Copy the contents of the email body into _document-encoded.txt_
 `python pigeon.py decode --fin document-encoded.txt`
 
-*Done!* You will now have a copy of _document.pdf_ on your personal computer.
+**Done!** You will now have a copy of _document.pdf_ on your personal computer.
 
 ## Project Structure
   * pigeon.py
