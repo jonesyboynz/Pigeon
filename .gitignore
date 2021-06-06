@@ -1,11 +1,9 @@
 # Test files
-*.pgy
-test/unit-tests/ut_pigeon.py
-
-# Test data
-*.json
-*.pgy-decoded
+*.dropping
+*.decoded
 *.test-output
+*.json
+test/unit-tests/ut_pigeon.py
 
 # https://github.com/github/gitignore/blob/master/Python.gitignore
 # Byte-compiled / optimized / DLL files
