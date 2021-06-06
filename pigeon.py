@@ -92,7 +92,8 @@ class BufferedFile(object): #Buffered file input and output
     def __PopulateBuffer(self):
         self.__buffer = self.__file.read(self.__bufferSize)
         self.__index = 0
-        self.EndOfFile = len(self.__buffer) == 0
+        if len(self.__buffer) == 0:
+            self.Close()
 
     def Read(self):
         if self.__index >= len(self.__buffer):

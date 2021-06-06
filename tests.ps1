@@ -32,6 +32,7 @@ Write-Host "Running unit tests." -ForegroundColor magenta -BackgroundColor black
 
 Foreach ($unitTest in $unitTestFiles)
 {
+  Write-Host "    $unitTest" -ForegroundColor cyan -BackgroundColor black
   python $unitTest
   if( -not $? )
   {
