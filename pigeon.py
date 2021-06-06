@@ -4,6 +4,7 @@ import os
 import json
 import ntpath
 import sys
+import time
 
 #Global vairables
 VERSION = "1.0.0"
@@ -27,24 +28,43 @@ class PigeonError(Exception): #Custom exception
         exit(self.Code)
 
 class ProgressDisplay(object): #For displaying encoding/decoding progress
-    def __init__(self, target):
+    def __init__(self, target, mode, fileIn, fileOut):
         self.__target = target
         self.__count = 0
+        self.__updates = 0
+        self.__start = None
+        self.__encodeMode = mode
+        self.__fileIn = fileIn
+        self.__fileOut = fileOut
 
     def Begin(self):
-        print("Bytes processed: ", end="")
+        self.__start = time.process_time()
+
+        print("{0} \"{1}\" ---> \"{2}\".".format("Encoding" if self.__encodeMode else "Decoding", self.__fileIn, self.__fileOut))
+        print("Bytes processed:\n\t", end="")
         return self
 
     def Update(self, count):
         self.__count += count
         if self.__count >= self.__target:
-            print("{0}... ".format(self.__target), end="")
+            print("{0: >12}... ".format(self.__target), end="")
+            self.__updates += 1
+            self.__NextLine()
             sys.stdout.flush()
             self.__target = self.__target * 2
 
+    def __NextLine(self):
+        if self.__updates % 4 == 0:
+            print("\n\t", end="")
+
     def End(self):
-        print("[{0}]".format(self.__count))
+        duration = time.process_time() - self.__start
+        print("{0: >12}".format("[" + str(self.__count) + "]"))
+        print("Elapsed time: {0}s.".format(duration))
         return self
+
+    def Complete(self):
+        print("Complete: {0} data saved in \"{1}\".".format("Encoded" if self.__encodeMode else "Decoded", self.__fileOut))
 
 class BufferedInput(object): #Buffered command line input
     def __init__(self):
@@ -128,7 +148,7 @@ class SymbolNode(object): #Node in the decoding state-machine
 
     def Extend(self, code, byte):
         if self.Byte is not None:
-            raise PigeonError("EncodingEngineError", 23, "Bytes {0} and {1} mapped to the same path!".format(self.Byte, byte))
+            raise PigeonError("EncodingEngineError", 20, "Bytes {0} and {1} mapped to the same path!".format(self.Byte, byte))
         if len(code) == 0:
             self.Byte = byte
             return
@@ -142,10 +162,10 @@ class SymbolNode(object): #Node in the decoding state-machine
             return (self.Byte, 1)
         byte = bufferIn.Read()
         if byte is None:
-            raise PigeonError("DecodingError", 43, "Unable to parse file")
+            raise PigeonError("DecodingError", 40, "Unable to parse file")
         char = chr(byte)
         if char not in self.__children:
-            raise PigeonError("DecodingError", 44, "Unable to decode {0} from {1}".format(char, self.Char))
+            raise PigeonError("DecodingError", 40, "Unable to decode {0} from {1}".format(char, self.Char))
         decodedByte, count = self.__children[char].Decode(bufferIn)
         return (decodedByte, count + 1)
 
@@ -163,25 +183,35 @@ class EncodingEngine(object): #EncodingEngine for encoding and decoding
         self.MetadataSeperator = None
 
     def Build(self):
-        EncodingEngine = json.loads(self.__json)
+        codebook = json.loads(self.__json)
+        self.__AddHeader(codebook)
+        self.__AddMetadataSeperator(codebook)
         for i in range(0, 256):
-            if str(i) not in EncodingEngine:
-                raise PigeonError("EncodingEngineError", 21, "Byte {0} not in EncodingEngine".format(i))
-            codes = EncodingEngine[str(i)]
+            if str(i) not in codebook:
+                raise PigeonError("EncodingEngineError", 20, "Byte {0} not in EncodingEngine".format(i))
+            codes = codebook[str(i)]
             if len(codes) == 0:
-                raise PigeonError("EncodingEngineError", 22, "No codes specified for byte {0}".format(i))
+                raise PigeonError("EncodingEngineError", 20, "No codes specified for byte {0}".format(i))
             self.__encoding[i] = codes # build encoding
             for c in codes: # build decoding
                 self.__AddDecoder(c, i)
-        self.Header = EncodingEngine["header"]
-        self.MetadataSeperator = EncodingEngine["metadata-seperator"]
         return self
+
+    def __AddHeader(self, codebook):
+        if "header" not in codebook:
+            raise PigeonError("EncodingEngineError", 20, "Header is not defined")
+        self.Header = codebook["header"]
+
+    def __AddMetadataSeperator(self, codebook):
+        if "metadata-seperator" not in codebook:
+            raise PigeonError("EncodingEngineError", 20, "Metadata seperator is not defined")
+        self.MetadataSeperator = codebook["metadata-seperator"]
 
     def __AddDecoder(self, code, byte):
         if len(code) == 0:
-            raise PigeonError("EncodingEngineError", 23, "Byte {0} contains an empty code".format(byte))
+            raise PigeonError("EncodingEngineError", 20, "Byte {0} contains an empty code".format(byte))
         if code[0] in self.__decoding and len(code) == 1:
-            raise PigeonError("EncodingEngineError", 24, "Byte {0} contains a duplicated codeword".format(byte))
+            raise PigeonError("EncodingEngineError", 20, "Byte {0} contains a duplicated codeword".format(byte))
         elif code[0] not in self.__decoding:
             self.__decoding[code[0]] = SymbolNode(code[0])
         self.__decoding[code[0]].Extend(code[1:], byte)
@@ -232,7 +262,7 @@ class EncodingEngine(object): #EncodingEngine for encoding and decoding
             if metadataString.count(self.MetadataSeperator) == 3:
                 break
             if bufferIn.EndOfFile or len(string) >= DEFAULT_BUFFER_SIZE * 10: #Just in case someone inputs the wrong file (and it is massive)
-                raise PigeonError("DecodingError", 41, "Unable to locate metadata")
+                raise PigeonError("DecodingError", 40, "Unable to locate metadata")
         components = metadataString.split(self.MetadataSeperator)
         return (components[1], components[2])
 
@@ -264,7 +294,7 @@ def Decode(arguments): #Performs the decoding
     fin = GetInputFile(arguments.fin, arguments.buffer)
     version, filename = EncodingEngine.SeekMetadata(fin)
     fout = GetOutputFile(arguments.fout or filename, arguments.buffer)
-    display = ProgressDisplay(arguments.buffer).Begin()
+    display = ProgressDisplay(arguments.buffer, False, arguments.fin, arguments.fout).Begin()
     try:
         while not fin.EndOfFile:
             count = EncodingEngine.Decode(fin, fout, arguments.buffer)
@@ -273,13 +303,13 @@ def Decode(arguments): #Performs the decoding
     finally:
         fin.Close()
         fout.Close()
-    print("Complete: Decoded file saved as \"{0}\"".format(fout.Filename))
+    display.Complete()
 
 def Encode(arguments): #Performs the encoding
     EncodingEngine = GetEncodingEngine(arguments)
     fin = GetInputFile(arguments.fin, arguments.buffer)
     fout = GetOutputFile(arguments.fout, arguments.buffer)
-    display = ProgressDisplay(arguments.buffer).Begin()
+    display = ProgressDisplay(arguments.buffer, True, arguments.fin, arguments.fout).Begin()
     try:
         fout.WriteStr(EncodingEngine.Header)
         fout.WriteStr("{0}{1}{0}{2}{0}".format(EncodingEngine.MetadataSeperator, VERSION, ntpath.basename(fin.Filename)))
@@ -291,7 +321,7 @@ def Encode(arguments): #Performs the encoding
     finally:
         fin.Close()
         fout.Close()
-    print("Complete: Encoded data saved in \"{0}\"".format(fout.Filename))
+    display.Complete()
 
 def FailWith(message, code): #Displays an error message and exits
     print(message)
@@ -301,9 +331,9 @@ def ValidateArguments(arguments): #Validates the command line arguments
     if arguments.fin is not None and not os.path.exists(arguments.fin):
         raise PigeonError("ArgumentError", 10, "Input file \"{0}\" does not exist!".format(arguments.fin))
     if arguments.fout is not None and os.path.exists(arguments.fout):
-        raise PigeonError("ArgumentError", 11, "Output file \"{0}\" already exists!".format(arguments.fout))
+        raise PigeonError("ArgumentError", 10, "Output file \"{0}\" already exists!".format(arguments.fout))
     if arguments.codebook is not None and not os.path.exists(arguments.codebook):
-        raise PigeonError("ArgumentError", 12, "EncodingEngine file \"{0}\" does not exist!".format(arguments.codebook))
+        raise PigeonError("ArgumentError", 10, "EncodingEngine file \"{0}\" does not exist!".format(arguments.codebook))
     if arguments.mode.startswith("e") and arguments.fin is None:
         print("Warning: Text input is not reccomended for file input. Command line encoding may not support the file's content.")
 

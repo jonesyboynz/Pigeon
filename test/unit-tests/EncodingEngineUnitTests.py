@@ -15,10 +15,16 @@ class EncodingEngineTests(unittest.TestCase):
         builtEngine = engine.Build()
         self.assertEqual(engine, builtEngine)
 
-    def test_EncodingEngine_Decode_Header_and_MetadataSeperator(self):
+    def test_EncodingEngine_Constructor_Header_and_MetadataSeperator(self):
         engine = EncodingEngine(LoadJsonFromFile("test/unit-tests/basic.json")).Build()
         self.assertEqual(engine.Header, "!!!p1ge0n")
         self.assertEqual(engine.MetadataSeperator, ":")
+
+    def test_EncodingEngine_Constructor_Missing_Header(self):
+        self.assertRaises(PigeonError, lambda: EncodingEngine("""{"metadata-seperator": ":"}""").Build())
+
+    def test_EncodingEngine_Constructor_Missing_Metadata_Seperator(self):
+        self.assertRaises(PigeonError, lambda: EncodingEngine("""{"header": "!!!p1ge0n"}""").Build())
 
     #Encoding
     def test_EncodingEngine_Encode_Three_Bytes(self):
